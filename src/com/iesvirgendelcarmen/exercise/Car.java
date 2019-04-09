@@ -28,5 +28,9 @@ public class Car {
 	public void setPlate(String plate) {
 		this.plate = plate;
 	}
+	@Override
+	public String toString() {
+		return String.format("Car [model=%s, maker=%s, plate=%s]", model, maker, plate);
+	}
 	
 }
