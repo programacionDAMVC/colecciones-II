@@ -2,6 +2,7 @@ package com.iesvirgendelcarmen.exercise;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Map;
 
 public class CarDAO {
@@ -23,7 +24,7 @@ public class CarDAO {
 				car.getPlate() == null || listCars.containsKey(car.getPlate()))
 			return false;
 		else {
-			listCars.put(car.getPlate(), new String[] {car.getMaker(), car.getModel()});
+			listCars.put(car.getPlate(), new String[] { car.getModel(), car.getMaker()});
 			return true;
 		}
 	}
@@ -43,13 +44,16 @@ public class CarDAO {
 				car.getPlate() == null || !listCars.containsKey(car.getPlate()))
 			return false;
 		else {
-			listCars.put(car.getPlate(), new String[] {car.getMaker(), car.getModel()});
+			listCars.put(car.getPlate(), new String[] {car.getModel(), car.getMaker()});
 			return true;
 		}
 	}
 	//delete car 
 	public boolean deleteCarByPlate(String plate) {
-		return false;
+//		String[] values = listCars.remove(plate);
+//		System.out.println(Arrays.toString(values));
+//		return values != null;
+		return listCars.remove(plate) != null;
 	}
 
 	public static void main(String[] args) {
@@ -58,17 +62,19 @@ public class CarDAO {
 //			System.out.println(cdDao.addCar(new Car(null, "hola", "kjdf")));
 //			System.out.println(cdDao.addCar(new Car("hola",null, "kjdf")));
 //			System.out.println(cdDao.addCar(new Car("hola", "kjdf", null)));
-//			System.out.println(cdDao.addCar(new Car("modelo", "fabricante", "matricula")));
+			System.out.println(cdDao.addCar(new Car("modelo", "fabricante", "matricula")));
 //			System.out.println(cdDao.addCar(new Car("modelo", "fabricante", "matricula")));
 //			System.out.println(cdDao.getCarByPlate(null));
 //			System.out.println(cdDao.getCarByPlate("modelo"));
 //			System.out.println(cdDao.getCarByPlate("0183NTY"));
-			System.out.println(cdDao.updateCarByPlate(new Car(null, "hola", "kjdf")));
-			System.out.println(cdDao.updateCarByPlate(new Car("hola",null, "kjdf")));
-			System.out.println(cdDao.updateCarByPlate(new Car("hola", "kjdf", null)));
-			System.out.println(cdDao.updateCarByPlate(new Car("modelo", "fabricante", "matricula")));
-			System.out.println(cdDao.updateCarByPlate(new Car("modelo", "fabricante", "0183NTY")));
-			System.out.println(cdDao.updateCarByPlate(new Car("modelo", "fabricante", "0183NTY")));
+//			System.out.println(cdDao.updateCarByPlate(new Car(null, "hola", "kjdf")));
+//			System.out.println(cdDao.updateCarByPlate(new Car("hola",null, "kjdf")));
+//			System.out.println(cdDao.updateCarByPlate(new Car("hola", "kjdf", null)));
+//			System.out.println(cdDao.updateCarByPlate(new Car("modelo", "fabricante", "matricula")));
+//			System.out.println(cdDao.updateCarByPlate(new Car("modelo", "fabricante", "0183NTY")));
+//			System.out.println(cdDao.updateCarByPlate(new Car("modelo", "fabricante", "0183NTY")));
+			System.out.println(cdDao.deleteCarByPlate("matricula"));
+			System.out.println(cdDao.deleteCarByPlate("matricula"));
 
 
 		} catch (FileNotFoundException e) {

@@ -31,6 +31,11 @@ public class Helper {
 		return listCars;
 	}
 
+	public static boolean checkPlate(String plate) {
+		if (plate == null)
+			return false;
+		return plate.toLowerCase().matches("[\\d]{4}[a-z]{3}");
+	}
 	public static void main(String[] args) {
 		try {
 			Map<String,String[]> listCars = getDataFromFile(new File("data/cars.json"));
@@ -42,6 +47,19 @@ public class Helper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		System.out.println(checkPlate("1234abc"));
+//		System.out.println(checkPlate("1234abcd"));
+//		System.out.println(checkPlate("123abc"));
+//		System.out.println(checkPlate("aabc123"));
+//		System.out.println(checkPlate("1234111"));
+//		System.out.println(checkPlate("aaaaabc"));
+//		System.out.println(checkPlate(null));
+
+;
+
+
+
+
 	}
 
 }
