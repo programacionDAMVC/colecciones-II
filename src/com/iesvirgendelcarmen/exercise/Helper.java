@@ -36,7 +36,21 @@ public class Helper {
 			return false;
 		return plate.toLowerCase().matches("[\\d]{4}[a-z]{3}");
 	}
+	
+	public static boolean checkModel(String model) {
+		// 9-3, Express 2500, Leone
+		//regex:  [0-9a-zA-z][0-9a-zA-z\\s-]*[0-9a-zA-z]
+		return model.matches("[0-9a-zA-z][0-9a-zA-z\\s-]*");
+	}
+	
+	public static boolean checkMaker(String maker) {
+		// 9-3, Express 2500, Leone
+		//regex:  [0-9a-zA-z][0-9a-zA-z\\s-]*[0-9a-zA-z]
+		return maker.matches("[a-zA-z][a-zA-z\\s-]*[a-zA-z]");
+	}
 	public static void main(String[] args) {
+		
+
 		try {
 			Map<String,String[]> listCars = getDataFromFile(new File("data/cars.json"));
 			for (String plate : listCars.keySet()) {
@@ -54,8 +68,13 @@ public class Helper {
 //		System.out.println(checkPlate("1234111"));
 //		System.out.println(checkPlate("aaaaabc"));
 //		System.out.println(checkPlate(null));
+		System.out.println(checkMaker("9-3"));
+		System.out.println(checkMaker("Land Rover"));
+		System.out.println(checkMaker("Leone"));
+		System.out.println(checkMaker("  "));
 
-;
+
+
 
 
 

@@ -12,12 +12,14 @@ public class TestCars {
 	private static Scanner sc;
 	public static void main(String[] args) {
 		try {
-			carDAO  = new CarDAO(Helper.getDataFromFile(new File("data/cars.json")));
+			carDAO  = new CarDAO();
+			carDAO.setListCars(Helper.getDataFromFile(new File("data/cars.json")));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		sc = new Scanner(System.in);
+		sc.useDelimiter("(\n|\r\n|\r)"); 
 		int iOption = -1;
 		do {
 			showMenu();
@@ -59,12 +61,58 @@ public class TestCars {
 	}
 
 	private static void updateCar() {
-		System.out.println("update car");
+		//System.out.println("add car");
+				String plate;
+				do {
+					System.out.println("Enter a valid plate");
+					plate = sc.next();
+				} while (!Helper.checkPlate(plate));
+				
+				String model;
+				do {
+					System.out.println("Enter a valid model");
+					model = sc.next();
+				} while (!Helper.checkModel(model));
+				
+				String maker;
+				do {
+					System.out.println("Enter a valid maker");
+					maker = sc.next();
+				} while (!Helper.checkMaker(maker));
+				
+				Car car = new Car(model, maker, plate);
+				if (carDAO.updateCarByPlate(car))
+					System.out.println("Add car");
+				else
+					System.out.println("I can't update car");
 		
 	}
 
 	private static void addCar() {
-		System.out.println("add car");
+		//System.out.println("add car");
+		String plate;
+		do {
+			System.out.println("Enter a valid plate");
+			plate = sc.next();
+		} while (!Helper.checkPlate(plate));
+		
+		String model;
+		do {
+			System.out.println("Enter a valid model");
+			model = sc.next();
+		} while (!Helper.checkModel(model));
+		
+		String maker;
+		do {
+			System.out.println("Enter a valid maker");
+			maker = sc.next();
+		} while (!Helper.checkMaker(maker));
+		
+		Car car = new Car(model, maker, plate);
+		if (carDAO.addCar(car))
+			System.out.println("Add car");
+		else
+			System.out.println("I can't add car");
 		
 	}
 
