@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CarDAO {
@@ -20,54 +22,41 @@ public class CarDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 	//create table
 	public void createTableCar() {
 		//DOS OPERACIONES: DROP Y CREATE. SE DEBEN HACER LAS DOS O NINGUNA
 		//IMPLICA TRANSACCIONES
-		
-			
-	//	int rowsDrop = 0, rowsCreate = 0;
+
+
+		//	int rowsDrop = 0, rowsCreate = 0;
 		String dropTable   = " DROP TABLE IF EXISTS car;";
 		String createTable = "CREATE TABLE car ( model TEXT NOT NULL, " + 
 				"maker TEXT NOT NULL, plate TEXT PRIMARY KEY);";
 		Statement statement = null;
 		try {
-			//OBLIGAMOS A SQLITE QUE LAS OPERACIONES NO SEAN ATÓMICAS
-			connection.setAutoCommit(false); 
 			statement = connection.createStatement();
 			statement.executeUpdate(dropTable);
 			statement.executeUpdate(createTable);
-			connection.commit();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} finally {
-				if (statement != null)
-					try {
-						statement.close();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+		} finally {
+			if (statement != null)
 				try {
-					connection.setAutoCommit(true);
+					statement.close();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+
 				}
-			}
 		}
-		
-		
+
+
 	}
-	
+
 	//Fill table car
 	public void fillTableCar(Map<String, String[]> listCars) {
 		int count = 0;
@@ -79,7 +68,7 @@ public class CarDAO {
 				psStatement.setString(1, values[0]);
 				psStatement.setString(2, values[1]);
 				count += psStatement.executeUpdate();
-				
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -87,10 +76,23 @@ public class CarDAO {
 		}
 		System.out.printf("Insert %d rows%n", count);
 	}
-	
-    //get cars from database
+
+	//get cars from database
 	public Map<String,String[]> getCarsFromDataBase(){
-		return null;
+		String sql = "SELECT * from car;";
+		Map<String, String[]> listCarsFromDB = new HashMap<>();
+		try (Statement statement = connection.createStatement();){
+			ResultSet rsSet = statement.executeQuery(sql);
+			while (rsSet.next()) {
+				//System.out.println(rsSet.getString(3));
+				listCarsFromDB.put(rsSet.getString(3),
+						new String[] {rsSet.getString(1),rsSet.getString(2)});
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listCarsFromDB;
 	}
 
 	public void setListCars(Map<String, String[]> listCars) {
@@ -129,16 +131,17 @@ public class CarDAO {
 	}
 	//delete car 
 	public boolean deleteCarByPlate(String plate) {
-//		String[] values = listCars.remove(plate);
-//		System.out.println(Arrays.toString(values));
-//		return values != null;
+		//		String[] values = listCars.remove(plate);
+		//		System.out.println(Arrays.toString(values));
+		//		return values != null;
 		return listCars.remove(plate) != null;
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
 		CarDAO carDAO = new CarDAO();
-		carDAO.createTableCar();
-		carDAO.fillTableCar(Helper.getDataFromFile(new File("data/cars.json")));
+	//	carDAO.createTableCar();
+	//	carDAO.fillTableCar(Helper.getDataFromFile(new File("data/cars.json")));
+		System.out.println(carDAO.getCarsFromDataBase());
 	}
 
 }
